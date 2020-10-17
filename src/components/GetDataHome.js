@@ -72,7 +72,7 @@ const GetDataHome = (props) =>{
 });
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    // console.log(state);
     return {
       contacts: state,
     };
