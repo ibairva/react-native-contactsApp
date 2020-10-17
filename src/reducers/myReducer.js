@@ -1,13 +1,15 @@
+import { RECEIVE_API_DATA, RECEIVE_DELETED_DATA, RECEIVE_POSTED_DATA} from '../actions/myAction';
+
 const myReducer = (state = [], action) => {
   switch (action.type) {
-    case "GET_DATA":
+    case RECEIVE_API_DATA:
       return action.payload;
 
-    case "POST_DATA":
-      return [...state, action.payload];
-
-    case "DELETE_DATA":
+    case RECEIVE_DELETED_DATA:
       return state.filter((contact) => contact.id !== action.payload);
+
+    case RECEIVE_POSTED_DATA:
+      return [...state, action.payload];
       
     default:
       return state;
