@@ -1,31 +1,43 @@
-import { put, takeEvery} from 'redux-saga/effects';
+import { call, put, takeEvery, takeLatest } from "redux-saga/effects";
+import { GET_DATA, DELETE_DATA, POST_DATA, receiveApiData, receiveDeletedData, receivePostedData } from '../actions/myAction';
+import { fetchData, fetchDeletedData, fetchPostedData} from '../api';
 
-
-
-function* getContacts(){
-    yield put({ type:"GET_CONTACTS", payload:""});
+function* getApiData(action) {
+  try {
+    const payload = yield call(fetchData);
+    yield put(receiveApiData(payload));
+    // console.log("this is my dataa", payload);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-export function* watchGet(){
-    yield takeEvery("GET_DATA", getContacts);
+function* getDeletedApiData(action) {
+  try {
+    const payload = yield call(fetchDeletedData, action.id);
+    yield put(receiveDeletedData(payload));
+    // console.log("this is my deleted dataa", payload);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-function* postContacts(){
-    yield put({ type:"POST_CONTACTS", payload:resp.data});
+function* getPostedApiData(action) {
+  try {
+    const payload = yield call(fetchPostedData, action.name, action.phone);
+    yield put(receivePostedData(payload));
+    // console.log("this is my posted dataa", payload);
+  } catch (e) {
+    console.log(e);
+  }
 }
 
-export function* watchPost(){
-    yield takeEvery("POST_DATA", postContacts);
+export default function* rootSaga() {
+  yield takeLatest(GET_DATA, getApiData);
+  yield takeLatest(DELETE_DATA, getDeletedApiData);
+  yield takeLatest(POST_DATA, getPostedApiData);
 }
 
-function* deleteContacts(){
-    yield put({ type:"DELETE_CONTACTS", payload:item});
-}
-
-export function* watchDelete(){
-   
-    yield takeEvery("DELETE_DATA", deleteContacts);
-}
 
 
 
