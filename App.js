@@ -3,9 +3,8 @@ import React, {Component} from 'react';
 import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
 import myReducer from "./src/reducers/myReducer";
-import thunk from 'redux-thunk';
-// import createSagaMiddleware from 'redux-saga';
-// import { watchGet } from './src/sagas/saga';
+// import thunk from 'redux-thunk';
+import createSagaMiddleware from 'redux-saga';
 import { NavigationContainer } from '@react-navigation/native';
 // import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -13,17 +12,18 @@ import Header from './src/components/header';
 import GetDataHome from './src/components/GetDataHome';
 import PostScreen from './src/components/PostScreen';
 import { Icon } from 'react-native-elements';
+import rootSaga from './src/sagas/saga';
 
 
 
-// const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware();
 
-const store = createStore(myReducer, applyMiddleware(thunk));
+const store = createStore(myReducer, applyMiddleware(sagaMiddleware));
 
 // const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
 
-// sagaMiddleware.run(watchGet);
+sagaMiddleware.run(rootSaga);
 
 // function MyStack() {
 //   return (
